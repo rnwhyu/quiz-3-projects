@@ -28,7 +28,7 @@ func Setup() {
 		os.Getenv("PGUSER"),
 		os.Getenv("PGPASSWORD"),
 		os.Getenv("PGDATABASE"))
-
+	fmt.Println(psqlInfo)
 	DB, err = sql.Open("postgres", psqlInfo)
 	if err != nil {
 		panic(err)
