@@ -33,17 +33,15 @@ func Setup() {
 	if err != nil {
 		panic(err)
 	}
-
 	err = DB.Ping()
 	if err != nil {
 		panic(err)
 	}
-
 	fmt.Println("Successfully connected to DB")
 }
 func DbMigrate(dbParam *sql.DB) {
 	migrations := &migrate.PackrMigrationSource{
-		Box: packr.New("migrations", "./sql_migrations"),
+		Box: packr.New("migrations", "./sql_migration"),
 	}
 	n, errs := migrate.Exec(dbParam, "postgres", migrations, migrate.Up)
 	if errs != nil {
