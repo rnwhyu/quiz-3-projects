@@ -24,7 +24,7 @@ func Setup(router *gin.Engine) {
 	router.GET("/category/:id", controllers.FindByID)
 	router.GET("/category/:id/books", controllers.FindBooks)
 	router.POST("/category", auth.BasicAuth(), controllers.CreateCategory)
-	router.PUT("/category:id", auth.BasicAuth(), controllers.UpdateCategory)
+	router.PUT("/category/:id", auth.BasicAuth(), controllers.UpdateCategory)
 	router.DELETE("/category/:id", auth.BasicAuth(), controllers.DeleteCategory)
 	router.Run(":"+os.Getenv("PORT"))
 }
