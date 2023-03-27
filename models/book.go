@@ -21,7 +21,7 @@ type Book struct {
 type Books []Book
 
 func (b *Books) FindAll() error {
-	sql := `SELECT * FROM books ORDER BY id`
+	sql := `SELECT * FROM books ORDER BY book_id`
 
 	rows, err := db.DB.Query(sql)
 
@@ -58,7 +58,7 @@ func (b *Books) FindAll() error {
 }
 
 func (bs *Books) FindByCategoryID(categoryID int) error {
-	sql := `SELECT * FROM books WHERE category_id = $1 ORDER BY id`
+	sql := `SELECT * FROM books WHERE category_id = $1 ORDER BY book_id`
 	rows, err := db.DB.Query(sql, categoryID)
 	if err != nil {
 		return err
@@ -88,7 +88,7 @@ func (bs *Books) FindByCategoryID(categoryID int) error {
 }
 func (b *Book) Create() error {
 	sql := `
-		INSERT INTO books (category_id,title,description,image_url,release_year,price,total_page,thickness)
+		INSERT INTO books (category_id,book_title,book_desc,img_url,book_year,book_price,book_page,book_thick)
 		VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
 		Returning *`
 	err := db.DB.
@@ -123,7 +123,7 @@ func (b *Book) Create() error {
 func (b *Book) Update() error {
 	sql := `
 		UPDATE books
-		SET category_id = $2, title = $3, description = $4, image_url = $5, release_year = $6, price = $7, total_page = $8, thickness = $9, updated_at = $10
+		SET category_id = $2, book_title = $3, book_desc = $4, img_url = $5, book_yeaer = $6, book_price = $7, book_page = $8, book_thick = $9, updated_date = $10
 		WHERE id = $1
 		Returning *`
 	err := db.DB.
@@ -159,7 +159,7 @@ func (b *Book) Update() error {
 
 func (b *Book) Delete() error {
 	sql := `DELETE from books
-			WHERE id = $1`
+			WHERE book_id = $1`
 	_, err := db.DB.Exec(sql, b.ID)
 	if err != nil {
 		return err

@@ -17,8 +17,8 @@ func Setup(router *gin.Engine) {
 	//book
 	router.GET("/books", controllers.FindAllBooks)
 	router.POST("/books", auth.BasicAuth(), controllers.CreateBook)
-	router.PUT("/:id", auth.BasicAuth(), controllers.UpdateBook)
-	router.DELETE("/:id", auth.BasicAuth(), controllers.DeleteBook)
+	router.PUT("/books/:id", auth.BasicAuth(), controllers.UpdateBook)
+	router.DELETE("/books/:id", auth.BasicAuth(), controllers.DeleteBook)
 	//category
 	router.GET("/category", controllers.FindAll)
 	router.GET("/category/:id", controllers.FindByID)
