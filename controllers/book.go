@@ -85,15 +85,25 @@ func CreateBook(c *gin.Context) {
 		return
 	}
 
-	img_url, err := regexp.MatchString(`https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`+regexp.QuoteMeta(request.Image_url)+`(?:/[^/\s]+)*/?$`, request.Image_url)
+	var validationErrors []map[string]string
+	_, err = regexp.MatchString(`https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`+regexp.QuoteMeta(request.Image_url)+`(?:/[^/\s]+)*/?$`, book.Image_url)
 	if err != nil {
-		response.ApiErrorResponse(c, http.StatusInternalServerError, err.Error())
-		return
+		validationErrors = append(validationErrors, map[string]string{
+			"field":   "image_url",
+			"message": "Invalid URL",
+		})
 	}
-	if request.Release_year < 1980 && request.Release_year > 2021 {
-		if !img_url {
-			response.ApiErrorResponse(c, http.StatusInternalServerError, err.Error())
-		}
+
+	if book.Release_year < 1980 || book.Release_year > 2021 {
+		validationErrors = append(validationErrors, map[string]string{
+			"field":   "release_year",
+			"message": "Must be between 1980 and 2021",
+		})
+	}
+
+	if len(validationErrors) > 0 {
+		response.ApiErrorResponse(c, http.StatusBadRequest, "Validation Error", validationErrors)
+		return
 	}
 
 	err = book.Create()
