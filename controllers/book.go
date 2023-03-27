@@ -86,7 +86,7 @@ func CreateBook(c *gin.Context) {
 	}
 
 	var validationErrors []map[string]string
-	validUrl, _ := regexp.MatchString(`https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`+regexp.QuoteMeta(request.Image_url)+`(?:/[^/\s]+)*/?$`, book.Image_url)
+	validUrl, _ := regexp.MatchString(`https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`, book.Image_url)
 	if !validUrl {
 		validationErrors = append(validationErrors, map[string]string{
 			"field":   "image_url",
@@ -151,7 +151,7 @@ func UpdateBook(c *gin.Context) {
 		return
 	}
 	var validationErrors []map[string]string
-	validUrl, _ := regexp.MatchString(`https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`+regexp.QuoteMeta(request.Image_url)+`(?:/[^/\s]+)*/?$`, book.Image_url)
+	validUrl, _ := regexp.MatchString(`https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`, book.Image_url)
 	if !validUrl {
 		validationErrors = append(validationErrors, map[string]string{
 			"field":   "image_url",
