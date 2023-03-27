@@ -15,8 +15,8 @@ type BookCreateRequest struct {
 	Category_id  int    `json:"category_id" binding:"required,numeric"`
 	Title        string `json:"title" binding:"required"`
 	Description  string `json:"description" binding:"required"`
-	Image_url    string `json:"image_url" binding:"required,url"`
-	Release_year int    `json:"release_year" binding:"required,numeric,gte=1980,lte=2021"`
+	Image_url    string `json:"image_url" binding:"required"`
+	Release_year int    `json:"release_year" binding:"required,numeric"`
 	Price        string `json:"price" binding:"required"`
 	Total_page   string `json:"total_page" binding:"required,numeric"`
 }
@@ -86,8 +86,8 @@ func CreateBook(c *gin.Context) {
 	}
 
 	var validationErrors []map[string]string
-	_, err = regexp.MatchString(`https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`+regexp.QuoteMeta(request.Image_url)+`(?:/[^/\s]+)*/?$`, book.Image_url)
-	if err != nil {
+	validUrl, _ := regexp.MatchString(`https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`+regexp.QuoteMeta(request.Image_url)+`(?:/[^/\s]+)*/?$`, book.Image_url)
+	if !validUrl {
 		validationErrors = append(validationErrors, map[string]string{
 			"field":   "image_url",
 			"message": "Invalid URL",
@@ -151,8 +151,8 @@ func UpdateBook(c *gin.Context) {
 		return
 	}
 	var validationErrors []map[string]string
-	_, err = regexp.MatchString(`https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`+regexp.QuoteMeta(request.Image_url)+`(?:/[^/\s]+)*/?$`, book.Image_url)
-	if err != nil {
+	validUrl, _ := regexp.MatchString(`https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`+regexp.QuoteMeta(request.Image_url)+`(?:/[^/\s]+)*/?$`, book.Image_url)
+	if !validUrl {
 		validationErrors = append(validationErrors, map[string]string{
 			"field":   "image_url",
 			"message": "Invalid URL",
