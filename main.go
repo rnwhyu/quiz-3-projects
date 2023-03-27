@@ -4,21 +4,23 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
-	"project-quiz3/database"
-	"project-quiz3/router"
+	db "project-quiz3/database"
+	routers "project-quiz3/router"
+
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
+
 var (
-	DB *sql.DB
+	DB  *sql.DB
 	err error
 )
-func main(){
-	//db.Setup()
+
+func main() {
 	err = godotenv.Load("config/.env")
-	if err!=nil{
+	if err != nil {
 		fmt.Println("Failed load file .env")
-	}else{
+	} else {
 		fmt.Println("Success read file .env")
 	}
 	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
@@ -35,12 +37,12 @@ func main(){
 	err = DB.Ping()
 	if err != nil {
 		panic(err)
-	}else{
+	} else {
 		fmt.Println("Successfully connected to DB")
 	}
 	db.DbMigrate(DB)
 	defer DB.Close()
-	app :=gin.Default()
+	app := gin.Default()
 	routers.Setup(app)
 
 }
