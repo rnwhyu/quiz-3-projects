@@ -1,14 +1,15 @@
 package controllers
+
 import (
-	"project-quiz3/response"
-	"project-quiz3/models"
 	"fmt"
 	"net/http"
+	"project-quiz3/models"
+	"project-quiz3/response"
 	"strconv"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 )
+
 type CategoryCreateRequest struct {
 	Name string `json:"name" binding:"required"`
 }
@@ -21,6 +22,7 @@ type CategoryUpdateRequest struct {
 	CategoryFindRequest
 	CategoryCreateRequest
 }
+
 func FindAll(c *gin.Context) {
 	categories := models.Categories{}
 	err := categories.FindAllCategory()
@@ -112,15 +114,16 @@ func FindByID(c *gin.Context) {
 }
 
 func UpdateCategory(c *gin.Context) {
+	var requestId CategoryFindRequest
 	var request CategoryUpdateRequest
 
-	err := c.ShouldBindUri(&request)
+	err := c.ShouldBindUri(&requestId)
 	if err != nil {
-		if !strings.Contains(err.Error(), "CategoryUpdateRequest.Name") || !strings.Contains(err.Error(), "required") {
-			response.ApiErrorResponse(c, http.StatusBadRequest, err.Error())
-			return
-		}
+		response.ApiErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
 	}
+
+	request.ID = requestId.ID
 
 	err = c.ShouldBindJSON(&request)
 	if err != nil {
