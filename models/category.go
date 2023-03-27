@@ -54,7 +54,7 @@ func (c *Category) FindCategory() error {
 func (c *Category) UpdateCategory() error {
 	sql := `
 		UPDATE categories
-		SET name = $2, updated_at = $3
+		SET name = $2, updated_date = $3
 		WHERE id = $1
 		Returning *`
 	err := db.DB.QueryRow(sql, c.ID, c.Name, time.Now()).
