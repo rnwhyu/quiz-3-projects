@@ -124,7 +124,7 @@ func (b *Book) Update() error {
 	sql := `
 		UPDATE books
 		SET category_id = $2, book_title = $3, book_desc = $4, img_url = $5, book_yeaer = $6, book_price = $7, book_page = $8, book_thick = $9, updated_date = $10
-		WHERE id = $1
+		WHERE book_id = $1
 		Returning *`
 	err := db.DB.
 		QueryRow(
