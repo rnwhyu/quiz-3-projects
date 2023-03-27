@@ -120,7 +120,7 @@ category:
     ```
 
 books:
-- "GET" : /category
+- "GET" : /books
   - Response : 
     ```
     {
@@ -142,7 +142,7 @@ books:
       ]
     }
     ```
-- "POST" : /category
+- "POST" : /books
   - Body : 
     ```
     {
@@ -174,7 +174,7 @@ books:
       }
     }
     ```
-- "PUT" : /category/:id
+- "PUT" : /books/:id
   - Body : 
     ```
     {
@@ -206,7 +206,7 @@ books:
       }
     }
     ```
-- "DELETE" : /category/:id
+- "DELETE" : /books/:id
   - Response : 
     ```
     {
